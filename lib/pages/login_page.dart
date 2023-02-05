@@ -14,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
   moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
     setState(() {
       changeButton = true;
     });
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       changeButton = false;
     });
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -60,6 +61,12 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: "Enter username",
                           labelText: "Username",
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Username cannot be empty";
+                          }
+                          return null;
+                        },
                         onChanged: (value) {
                           name = value;
                           setState(() {});
@@ -70,11 +77,18 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter Password",
                         labelText: "Password",
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "password cannot be empty";
+                        } else if (value.length < 6) {
+                          return "password length should be atleast 6";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 40.0,
                     ),
-
                     InkWell(
                       onTap: () => moveToHome(context),
                       child: AnimatedContainer(
@@ -100,15 +114,6 @@ class _LoginPageState extends State<LoginPage> {
                                 BorderRadius.circular(changeButton ? 20 : 8)),
                       ),
                     ),
-                    //  ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.pushNamed(context, MyRoutes.homeRoute);
-                    //   },
-                    //   child: Text("Login"),
-                    //   style: TextButton.styleFrom(
-                    //     minimumSize: Size(150, 40)
-                    //   ),
-                    // )
                   ],
                 ),
               )
