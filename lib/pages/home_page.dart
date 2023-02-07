@@ -10,12 +10,12 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Catalog App"),
       ),
-        body: Center(
-          child: Container(
-            child: Text("Welcome"),
-          ),
+      body: Center(
+        child: Container(
+          child: Text("Welcome"),
         ),
-        drawer: MyDrawer(),
-      );
+      ),
+      drawer: MyDrawer(),
+    );
   }
 }
