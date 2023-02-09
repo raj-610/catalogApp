@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/home_detail_page.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../models/catalog.dart';
-import '../../widgets/theme.dart';
+import '../../pages/home_detail_page.dart';
+import '../theme.dart';
 import 'catalog_image.dart';
 
 class CatalogList extends StatelessWidget {
@@ -16,13 +16,16 @@ class CatalogList extends StatelessWidget {
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items![index];
         return InkWell(
-            onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeDetailPage(catalog: catalog),
-                  ),
-                ),
-            child: CatalogItem(catalog: catalog));
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeDetailPage(
+                catalog: catalog,
+              ),
+            ),
+          ),
+          child: CatalogItem(catalog: catalog),
+        );
       },
     );
   }
@@ -40,8 +43,11 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
       child: Row(
         children: [
-          CatalogImage(
-            image: catalog.image,
+          Hero(
+            tag: Key(catalog.id.toString()),
+            child: CatalogImage(
+              image: catalog.image,
+            ),
           ),
           Expanded(
               child: Column(
@@ -51,7 +57,24 @@ class CatalogItem extends StatelessWidget {
               catalog.name.text.lg.color(MyTheme.darkBluishColor).bold.make(),
               catalog.desc.text.textStyle(context.captionStyle).make(),
               10.heightBox,
-              
+              ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                buttonPadding: EdgeInsets.zero,
+                children: [
+                  "\$${catalog.price}".text.bold.xl.make(),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          MyTheme.darkBluishColor,
+                        ),
+                        shape: MaterialStateProperty.all(
+                          const StadiumBorder(),
+                        )),
+                    child: "Add to cart".text.make(),
+                  )
+                ],
+              ).pOnly(right: 8.0)
             ],
           ))
         ],
